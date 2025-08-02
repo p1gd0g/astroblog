@@ -40,8 +40,7 @@ const today = new Date();
 		<a href="about_us.html" target="_blank">About Us</a>
 		<a href="contact_us.html" target="_blank">Contact Us</a>
 		<a href="privacy_policy.html" target="_blank">Privacy Policy</a>
-		<a href="terms_conditions.html" target="_blank">Terms & Conditions</a
-		>
+		<a href="terms_conditions.html" target="_blank">Terms & Conditions</a>
 		<a href="disclaimer.html" target="_blank">Disclaimer</a>
 		<a href="https://beian.miit.gov.cn/" target="_blank"
 			>粤ICP备16126556号</a
@@ -70,7 +69,6 @@ const today = new Date();
 		background: linear-gradient(var(--gray-gradient)) no-repeat;
 		color: rgb(var(--gray));
 		text-align: center;
-		
 	}
 	.social-links {
 		display: flex;
@@ -87,3 +85,8 @@ const today = new Date();
 		color: rgb(var(--gray-dark));
 	}
 </style>
+
+<script>
+	import { analytics } from "../firebase/client.ts";
+	console.log(analytics === null);
+</script>
