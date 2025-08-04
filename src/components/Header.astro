@@ -1,6 +1,18 @@
 ---
-import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
+import HeaderLink from "./HeaderLink.astro";
+import { SITE_TITLE } from "../consts";
+
+import { getCollection } from "astro:content";
+
+var allPosts = (await getCollection("blog")).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+allPosts = allPosts.filter(
+	(post: any) => post.data.tags && post.data.tags.length > 0,
+);
+
+const tags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
 ---
 
 <header>
@@ -8,8 +20,14 @@ import { SITE_TITLE } from '../consts';
 		<h2><a href="/">{SITE_TITLE}</a></h2>
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
+			<!-- <HeaderLink href="/blog">Blog</HeaderLink> -->
 			<!-- <HeaderLink href="/about">About</HeaderLink> -->
+			{
+				tags &&
+					tags.map((tag: string) => (
+						<HeaderLink href={`/tags/${tag}`}>{tag}</HeaderLink>
+					))
+			}
 		</div>
 		<!-- <div class="social-links">
 			<a href="https://m.webtoo.ls/@astro" target="_blank">
