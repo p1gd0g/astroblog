@@ -1,0 +1,17 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Replace mmbiz.qpic.cn",
+            "type": "shell",
+            "command": "find public/markdown -name '*.md' -exec sed -i 's/http:\\/\\/mmbiz.qpic.cn/https:\\/\\/md.p1gd0g.cc/g' {} \\;",
+            "problemMatcher": []
+        },
+        {
+            "label": "Replace doubanio",
+            "type": "shell",
+            "command": "find public/markdown -name '*.md' -exec sed -i 's/https:\\/\\/img/https:\\/\\/md.p1gd0g.cc\\/img/g' {} \\;",
+            "problemMatcher": []
+        },
+    ]
+}
