@@ -101,3 +101,8 @@ const tags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
 		}
 	}
 </style>
+
+<script>
+	import { analytics } from "../firebase/client.ts";
+	// console.log(analytics.app.name);
+</script>
