@@ -70,6 +70,12 @@ const { title, description, pubDate, updatedDate, heroImage, tags } =
 				font-size: 1.15em;
 				background-color: #f8fcfd;
 			}
+			
+			.giscus {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+			}
 		</style>
 	</head>
 
@@ -134,8 +140,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags } =
 			data-lang="zh-CN"
 			data-loading="lazy"
 			crossorigin="anonymous"
-			async
-		></script>
+			async></script>
 		<Footer />
 	</body>
 </html>
