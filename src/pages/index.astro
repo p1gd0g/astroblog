@@ -48,6 +48,7 @@ const posts = (await getCollection("blog")).sort(
 			}
 			ul li {
 				width: calc(50% - 1rem);
+				align-content: center
 			}
 			ul li * {
 				text-decoration: none;
@@ -70,6 +71,9 @@ const posts = (await getCollection("blog")).sort(
 			}
 			ul li a {
 				display: block;
+				border-radius: 12px;
+				padding: 0.5rem;
+				border: 1px dashed var(--accent);
 			}
 			.title {
 				margin: 0;
