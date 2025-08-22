@@ -45,10 +45,11 @@ const posts = (await getCollection("blog")).sort(
 				list-style-type: none;
 				margin: 0;
 				padding: 0;
+				position: relative;
 			}
 			ul li {
 				width: calc(50% - 1rem);
-				align-content: center
+				/* align-content: center */
 			}
 			ul li * {
 				text-decoration: none;
@@ -177,6 +178,43 @@ const posts = (await getCollection("blog")).sort(
 						))
 					}
 				</ul>
+				<script>
+					window.addEventListener("load", function () {
+						function updateLayout() {
+							const ul = document.querySelector("ul");
+							if (ul === null) return;
+							const items = ul.querySelectorAll("li");
+							const columnWidth = items[0].offsetWidth;
+							const gap = 20; // Adjust as needed
+							let columns: any[] = [];
+							
+							const containerWidth = ul.offsetWidth;
+							let columnCount = Math.floor(
+								containerWidth / columnWidth,
+							);
+							if (columnCount === 0) columnCount = 1;
+							columns = Array(columnCount).fill(0);
+
+							items.forEach((item, index) => {
+								const minHeight = Math.min(...columns);
+								const minIndex = columns.indexOf(minHeight);
+
+								item.style.position = "absolute";
+								item.style.left = `${minIndex * columnWidth + (minIndex > 0 ? minIndex * gap : 0)}px`;
+								item.style.top = `${minHeight}px`;
+
+								columns[minIndex] += item.offsetHeight + gap;
+							});
+
+							ul.style.height = `${Math.max(...columns)}px`;
+						}
+
+						// Delay the layout update slightly to ensure images are loaded and have dimensions
+						setTimeout(updateLayout, 100);
+
+						window.addEventListener("resize", updateLayout);
+					});
+				</script>
 			</section>
 		</main>
 
