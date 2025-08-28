@@ -229,7 +229,7 @@ const posts = (await getCollection("blog")).sort(
 						}
 
 						// Delay the layout update slightly to ensure images are loaded and have dimensions
-						setTimeout(updateLayout, 100);
+						setTimeout(updateLayout, 500);
 
 						window.addEventListener("resize", updateLayout);
 					});
