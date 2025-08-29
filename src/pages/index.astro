@@ -6,9 +6,12 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
-const posts = (await getCollection("blog")).sort(
+var posts = (await getCollection("blog")).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+// 过滤掉无 tag 的文章
+posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
 ---
 
 <!doctype html>
