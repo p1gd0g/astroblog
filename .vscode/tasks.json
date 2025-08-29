@@ -13,5 +13,11 @@
             "command": "find src/content/blog -name '*.md' -exec sed -i 's/https:\\/\\/img/https:\\/\\/md.p1gd0g.cc\\/img/g' {} \\;",
             "problemMatcher": []
         },
+        {
+            "label": "win Replace mmbiz.qpic.cn",
+            "type": "shell",
+            "command": "Get-ChildItem -Path src/content/blog -Filter *.md -Recurse | ForEach-Object { $content = [System.IO.File]::ReadAllText($_.FullName, [System.Text.Encoding]::UTF8); $newContent = $content -replace 'http:\\/\\/mmbiz.qpic.cn', 'https:\\/\\/md.p1gd0g.cc'; $utf8NoBom = New-Object System.Text.UTF8Encoding $false; [System.IO.File]::WriteAllText($_.FullName, $newContent, $utf8NoBom) }",
+            "problemMatcher": []
+        }
     ]
 }
