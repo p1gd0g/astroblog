@@ -13,6 +13,8 @@ allPosts = allPosts.filter(
 );
 
 var tags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
+tags.sort();
+
 const enIndex = tags.indexOf("EN");
 if (enIndex !== -1) {
 	tags.push(tags.splice(enIndex, 1)[0]);
