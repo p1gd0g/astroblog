@@ -1,209 +1,43 @@
-<style>
-    [data-custom-class='body'],
-    [data-custom-class='body'] * {
-        background: transparent !important;
-    }
-
-    [data-custom-class='title'],
-    [data-custom-class='title'] * {
-        font-family: Arial !important;
-        font-size: 26px !important;
-        color: #000000 !important;
-    }
-
-    [data-custom-class='subtitle'],
-    [data-custom-class='subtitle'] * {
-        font-family: Arial !important;
-        color: #595959 !important;
-        font-size: 14px !important;
-    }
-
-    [data-custom-class='heading_1'],
-    [data-custom-class='heading_1'] * {
-        font-family: Arial !important;
-        font-size: 19px !important;
-        color: #000000 !important;
-    }
-
-    [data-custom-class='heading_2'],
-    [data-custom-class='heading_2'] * {
-        font-family: Arial !important;
-        font-size: 17px !important;
-        color: #000000 !important;
-    }
-
-    [data-custom-class='body_text'],
-    [data-custom-class='body_text'] * {
-        color: #595959 !important;
-        font-size: 14px !important;
-        font-family: Arial !important;
-    }
-
-    [data-custom-class='link'],
-    [data-custom-class='link'] * {
-        color: #3030F1 !important;
-        font-size: 14px !important;
-        font-family: Arial !important;
-        word-break: break-word !important;
-    }
-</style>
-<span
-    style="display: block;margin: 0 auto 3.125rem;width: 11.125rem;height: 2.375rem;background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNzgiIGhlaWdodD0iMzgiIHZpZXdCb3g9IjAgMCAxNzggMzgiPgogICAgPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8cGF0aCBmaWxsPSIjRDFEMUQxIiBkPSJNNC4yODMgMjQuMTA3Yy0uNzA1IDAtMS4yNTgtLjI1Ni0xLjY2LS43NjhoLS4wODVjLjA1Ny41MDIuMDg2Ljc5Mi4wODYuODd2Mi40MzRILjk4NXYtOC42NDhoMS4zMzJsLjIzMS43NzloLjA3NmMuMzgzLS41OTQuOTUtLjg5MiAxLjcwMi0uODkyLjcxIDAgMS4yNjQuMjc0IDEuNjY1LjgyMi40MDEuNTQ4LjYwMiAxLjMwOS42MDIgMi4yODMgMCAuNjQtLjA5NCAxLjE5OC0uMjgyIDEuNjctLjE4OC40NzMtLjQ1Ni44MzMtLjgwMyAxLjA4LS4zNDcuMjQ3LS43NTYuMzctMS4yMjUuMzd6TTMuOCAxOS4xOTNjLS40MDUgMC0uNy4xMjQtLjg4Ni4zNzMtLjE4Ny4yNDktLjI4My42Ni0uMjkgMS4yMzN2LjE3N2MwIC42NDUuMDk1IDEuMTA3LjI4NyAxLjM4Ni4xOTIuMjguNDk1LjQxOS45MS40MTkuNzM0IDAgMS4xMDEtLjYwNSAxLjEwMS0xLjgxNiAwLS41OS0uMDktMS4wMzQtLjI3LTEuMzI5LS4xODItLjI5NS0uNDY1LS40NDMtLjg1Mi0uNDQzem01LjU3IDEuNzk0YzAgLjU5NC4wOTggMS4wNDQuMjkzIDEuMzQ4LjE5Ni4zMDQuNTEzLjQ1Ny45NTQuNDU3LjQzNyAwIC43NS0uMTUyLjk0Mi0uNDU0LjE5Mi0uMzAzLjI4OC0uNzUzLjI4OC0xLjM1MSAwLS41OTUtLjA5Ny0xLjA0LS4yOS0xLjMzOC0uMTk0LS4yOTctLjUxLS40NDUtLjk1LS40NDUtLjQzOCAwLS43NTMuMTQ3LS45NDYuNDQzLS4xOTQuMjk1LS4yOS43NDItLjI5IDEuMzR6bTQuMTUzIDBjMCAuOTc3LS4yNTggMS43NDItLjc3NCAyLjI5My0uNTE1LjU1Mi0xLjIzMy44MjctMi4xNTQuODI3LS41NzYgMC0xLjA4NS0uMTI2LTEuNTI1LS4zNzhhMi41MiAyLjUyIDAgMCAxLTEuMDE1LTEuMDg4Yy0uMjM3LS40NzMtLjM1NS0xLjAyNC0uMzU1LTEuNjU0IDAtLjk4MS4yNTYtMS43NDQuNzY4LTIuMjg4LjUxMi0uNTQ1IDEuMjMyLS44MTcgMi4xNi0uODE3LjU3NiAwIDEuMDg1LjEyNiAxLjUyNS4zNzYuNDQuMjUxLjc3OS42MSAxLjAxNSAxLjA4LjIzNi40NjkuMzU1IDEuMDE5LjM1NSAxLjY0OXpNMTkuNzEgMjRsLS40NjItMi4xLS42MjMtMi42NTNoLS4wMzdMMTcuNDkzIDI0SDE1LjczbC0xLjcwOC02LjAwNWgxLjYzM2wuNjkzIDIuNjU5Yy4xMS40NzYuMjI0IDEuMTMzLjMzOCAxLjk3MWguMDMyYy4wMTUtLjI3Mi4wNzctLjcwNC4xODgtMS4yOTRsLjA4Ni0uNDU3Ljc0Mi0yLjg3OWgxLjgwNGwuNzA0IDIuODc5Yy4wMTQuMDc5LjAzNy4xOTUuMDY3LjM1YTIwLjk5OCAyMC45OTggMCAwIDEgLjE2NyAxLjAwMmMuMDIzLjE2NS4wMzYuMjk5LjA0LjM5OWguMDMyYy4wMzItLjI1OC4wOS0uNjExLjE3Mi0xLjA2LjA4Mi0uNDUuMTQxLS43NTQuMTc3LS45MTFsLjcyLTIuNjU5aDEuNjA2TDIxLjQ5NCAyNGgtMS43ODN6bTcuMDg2LTQuOTUyYy0uMzQ4IDAtLjYyLjExLS44MTcuMzMtLjE5Ny4yMi0uMzEuNTMzLS4zMzguOTM3aDIuMjk5Yy0uMDA4LS40MDQtLjExMy0uNzE3LS4zMTctLjkzNy0uMjA0LS4yMi0uNDgtLjMzLS44MjctLjMzem0uMjMgNS4wNmMtLjk2NiAwLTEuNzIyLS4yNjctMi4yNjYtLjgtLjU0NC0uNTM0LS44MTYtMS4yOS0uODE2LTIuMjY3IDAtMS4wMDcuMjUxLTEuNzg1Ljc1NC0yLjMzNC41MDMtLjU1IDEuMTk5LS44MjUgMi4wODctLjgyNS44NDggMCAxLjUxLjI0MiAxLjk4Mi43MjUuNDcyLjQ4NC43MDkgMS4xNTIuNzA5IDIuMDA0di43OTVoLTMuODczYy4wMTguNDY1LjE1Ni44MjkuNDE0IDEuMDkuMjU4LjI2MS42Mi4zOTIgMS4wODUuMzkyLjM2MSAwIC43MDMtLjAzNyAxLjAyNi0uMTEzYTUuMTMzIDUuMTMzIDAgMCAwIDEuMDEtLjM2djEuMjY4Yy0uMjg3LjE0My0uNTkzLjI1LS45Mi4zMmE1Ljc5IDUuNzkgMCAwIDEtMS4xOTEuMTA0em03LjI1My02LjIyNmMuMjIyIDAgLjQwNi4wMTYuNTUzLjA0OWwtLjEyNCAxLjUzNmExLjg3NyAxLjg3NyAwIDAgMC0uNDgzLS4wNTRjLS41MjMgMC0uOTMuMTM0LTEuMjIyLjQwMy0uMjkyLjI2OC0uNDM4LjY0NC0uNDM4IDEuMTI4VjI0aC0xLjYzOHYtNi4wMDVoMS4yNGwuMjQyIDEuMDFoLjA4Yy4xODctLjMzNy40MzktLjYwOC43NTYtLjgxNGExLjg2IDEuODYgMCAwIDEgMS4wMzQtLjMwOXptNC4wMjkgMS4xNjZjLS4zNDcgMC0uNjIuMTEtLjgxNy4zMy0uMTk3LjIyLS4zMS41MzMtLjMzOC45MzdoMi4yOTljLS4wMDctLjQwNC0uMTEzLS43MTctLjMxNy0uOTM3LS4yMDQtLjIyLS40OC0uMzMtLjgyNy0uMzN6bS4yMyA1LjA2Yy0uOTY2IDAtMS43MjItLjI2Ny0yLjI2Ni0uOC0uNTQ0LS41MzQtLjgxNi0xLjI5LS44MTYtMi4yNjcgMC0xLjAwNy4yNTEtMS43ODUuNzU0LTIuMzM0LjUwNC0uNTUgMS4yLS44MjUgMi4wODctLjgyNS44NDkgMCAxLjUxLjI0MiAxLjk4Mi43MjUuNDczLjQ4NC43MDkgMS4xNTIuNzA5IDIuMDA0di43OTVoLTMuODczYy4wMTguNDY1LjE1Ni44MjkuNDE0IDEuMDkuMjU4LjI2MS42Mi4zOTIgMS4wODUuMzkyLjM2MiAwIC43MDQtLjAzNyAxLjAyNi0uMTEzYTUuMTMzIDUuMTMzIDAgMCAwIDEuMDEtLjM2djEuMjY4Yy0uMjg3LjE0My0uNTkzLjI1LS45MTkuMzJhNS43OSA1Ljc5IDAgMCAxLTEuMTkyLjEwNHptNS44MDMgMGMtLjcwNiAwLTEuMjYtLjI3NS0xLjY2My0uODIyLS40MDMtLjU0OC0uNjA0LTEuMzA3LS42MDQtMi4yNzggMC0uOTg0LjIwNS0xLjc1Mi42MTUtMi4zMDEuNDEtLjU1Ljk3NS0uODI1IDEuNjk1LS44MjUuNzU1IDAgMS4zMzIuMjk0IDEuNzI5Ljg4MWguMDU0YTYuNjk3IDYuNjk3IDAgMCAxLS4xMjQtMS4xOTh2LTEuOTIyaDEuNjQ0VjI0SDQ2LjQzbC0uMzE3LS43NzloLS4wN2MtLjM3Mi41OTEtLjk0Ljg4Ni0xLjcwMi44ODZ6bS41NzQtMS4zMDZjLjQyIDAgLjcyNi0uMTIxLjkyMS0uMzY1LjE5Ni0uMjQzLjMwMi0uNjU3LjMyLTEuMjR2LS4xNzhjMC0uNjQ0LS4xLTEuMTA2LS4yOTgtMS4zODYtLjE5OS0uMjc5LS41MjItLjQxOS0uOTctLjQxOWEuOTYyLjk2MiAwIDAgMC0uODUuNDY1Yy0uMjAzLjMxLS4zMDQuNzYtLjMwNCAxLjM1IDAgLjU5Mi4xMDIgMS4wMzUuMzA2IDEuMzMuMjA0LjI5Ni40OTYuNDQzLjg3NS40NDN6bTEwLjkyMi00LjkyYy43MDkgMCAxLjI2NC4yNzcgMS42NjUuODMuNC41NTMuNjAxIDEuMzEyLjYwMSAyLjI3NSAwIC45OTItLjIwNiAxLjc2LS42MiAyLjMwNC0uNDE0LjU0NC0uOTc3LjgxNi0xLjY5LjgxNi0uNzA1IDAtMS4yNTgtLjI1Ni0xLjY1OS0uNzY4aC0uMTEzbC0uMjc0LjY2MWgtMS4yNTF2LTguMzU3aDEuNjM4djEuOTQ0YzAgLjI0Ny0uMDIxLjY0My0uMDY0IDEuMTg3aC4wNjRjLjM4My0uNTk0Ljk1LS44OTIgMS43MDMtLjg5MnptLS41MjcgMS4zMWMtLjQwNCAwLS43LjEyNS0uODg2LjM3NC0uMTg2LjI0OS0uMjgzLjY2LS4yOSAxLjIzM3YuMTc3YzAgLjY0NS4wOTYgMS4xMDcuMjg3IDEuMzg2LjE5Mi4yOC40OTUuNDE5LjkxLjQxOS4zMzcgMCAuNjA1LS4xNTUuODA0LS40NjUuMTk5LS4zMS4yOTgtLjc2LjI5OC0xLjM1IDAtLjU5MS0uMS0xLjAzNS0uMy0xLjMzYS45NDMuOTQzIDAgMCAwLS44MjMtLjQ0M3ptMy4xODYtMS4xOTdoMS43OTRsMS4xMzQgMy4zNzljLjA5Ni4yOTMuMTYzLjY0LjE5OCAxLjA0MmguMDMzYy4wMzktLjM3LjExNi0uNzE3LjIzLTEuMDQybDEuMTEyLTMuMzc5aDEuNzU3bC0yLjU0IDYuNzczYy0uMjM0LjYyNy0uNTY2IDEuMDk2LS45OTcgMS40MDctLjQzMi4zMTItLjkzNi40NjgtMS41MTIuNDY4LS4yODMgMC0uNTYtLjAzLS44MzMtLjA5MnYtMS4zYTIuOCAyLjggMCAwIDAgLjY0NS4wN2MuMjkgMCAuNTQzLS4wODguNzYtLjI2Ni4yMTctLjE3Ny4zODYtLjQ0NC41MDgtLjgwM2wuMDk2LS4yOTUtMi4zODUtNS45NjJ6Ii8+CiAgICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzMpIj4KICAgICAgICAgICAgPGNpcmNsZSBjeD0iMTkiIGN5PSIxOSIgcj0iMTkiIGZpbGw9IiNFMEUwRTAiLz4KICAgICAgICAgICAgPHBhdGggZmlsbD0iI0ZGRiIgZD0iTTIyLjQ3NCAxNS40NDNoNS4xNjJMMTIuNDM2IDMwLjRWMTAuMzYzaDE1LjJsLTUuMTYyIDUuMDh6Ii8+CiAgICAgICAgPC9nPgogICAgICAgIDxwYXRoIGZpbGw9IiNEMkQyRDIiIGQ9Ik0xMjEuNTQ0IDE0LjU2di0xLjcyOGg4LjI3MnYxLjcyOGgtMy4wMjRWMjRoLTIuMjR2LTkuNDRoLTMuMDA4em0xMy43NDQgOS41NjhjLTEuMjkgMC0yLjM0MS0uNDE5LTMuMTUyLTEuMjU2LS44MS0uODM3LTEuMjE2LTEuOTQ0LTEuMjE2LTMuMzJzLjQwOC0yLjQ3NyAxLjIyNC0zLjMwNGMuODE2LS44MjcgMS44NzItMS4yNCAzLjE2OC0xLjI0czIuMzYuNDAzIDMuMTkyIDEuMjA4Yy44MzIuODA1IDEuMjQ4IDEuODggMS4yNDggMy4yMjQgMCAuMzEtLjAyMS41OTctLjA2NC44NjRoLTYuNDY0Yy4wNTMuNTc2LjI2NyAxLjA0LjY0IDEuMzkyLjM3My4zNTIuODQ4LjUyOCAxLjQyNC41MjguNzc5IDAgMS4zNTUtLjMyIDEuNzI4LS45NmgyLjQzMmEzLjg5MSAzLjg5MSAwIDAgMS0xLjQ4OCAyLjA2NGMtLjczNi41MzMtMS42MjcuOC0yLjY3Mi44em0xLjQ4LTYuNjg4Yy0uNC0uMzUyLS44ODMtLjUyOC0xLjQ0OC0uNTI4cy0xLjAzNy4xNzYtMS40MTYuNTI4Yy0uMzc5LjM1Mi0uNjA1LjgyMS0uNjggMS40MDhoNC4xOTJjLS4wMzItLjU4Ny0uMjQ4LTEuMDU2LS42NDgtMS40MDh6bTcuMDE2LTIuMzA0djEuNTY4Yy41OTctMS4xMyAxLjQ2MS0xLjY5NiAyLjU5Mi0xLjY5NnYyLjMwNGgtLjU2Yy0uNjcyIDAtMS4xNzkuMTY4LTEuNTIuNTA0LS4zNDEuMzM2LS41MTIuOTE1LS41MTIgMS43MzZWMjRoLTIuMjU2di04Ljg2NGgyLjI1NnptNi40NDggMHYxLjMyOGMuNTY1LS45NyAxLjQ4My0xLjQ1NiAyLjc1Mi0xLjQ1Ni42NzIgMCAxLjI3Mi4xNTUgMS44LjQ2NC41MjguMzEuOTM2Ljc1MiAxLjIyNCAxLjMyOC4zMS0uNTU1LjczMy0uOTkyIDEuMjcyLTEuMzEyYTMuNDg4IDMuNDg4IDAgMCAxIDEuODE2LS40OGMxLjA1NiAwIDEuOTA3LjMzIDIuNTUyLjk5Mi42NDUuNjYxLjk2OCAxLjU5Ljk2OCAyLjc4NFYyNGgtMi4yNHYtNC44OTZjMC0uNjkzLS4xNzYtMS4yMjQtLjUyOC0xLjU5Mi0uMzUyLS4zNjgtLjgzMi0uNTUyLTEuNDQtLjU1MnMtMS4wOS4xODQtMS40NDguNTUyYy0uMzU3LjM2OC0uNTM2Ljg5OS0uNTM2IDEuNTkyVjI0aC0yLjI0di00Ljg5NmMwLS42OTMtLjE3Ni0xLjIyNC0uNTI4LTEuNTkyLS4zNTItLjM2OC0uODMyLS41NTItMS40NC0uNTUycy0xLjA5LjE4NC0xLjQ0OC41NTJjLS4zNTcuMzY4LS41MzYuODk5LS41MzYgMS41OTJWMjRoLTIuMjU2di04Ljg2NGgyLjI1NnpNMTY0LjkzNiAyNFYxMi4xNmgyLjI1NlYyNGgtMi4yNTZ6bTcuMDQtLjE2bC0zLjQ3Mi04LjcwNGgyLjUyOGwyLjI1NiA2LjMwNCAyLjM4NC02LjMwNGgyLjM1MmwtNS41MzYgMTMuMDU2aC0yLjM1MmwxLjg0LTQuMzUyeiIvPgogICAgPC9nPgo8L3N2Zz4K) center no-repeat;"></span>
-
-<div data-custom-class="body">
-    <div>
-        <div align="center" class="MsoNormal" data-custom-class="title" style="text-align: left; line-height: 1.5;"><a
-                name="_4r5vko5di6yg"></a><strong><span style="line-height: 150%; font-size: 26px;">
-                    <h1>DISCLAIMER</h1>
-                </span></strong></div>
-        <div align="center" class="MsoNormal" style="text-align:center;line-height:150%;"><a name="_l2jmcqu2bv4x"></a>
-        </div>
-        <div align="center" class="MsoNormal" data-custom-class="subtitle" style="text-align: left; line-height: 150%;">
-            <span style="color: rgb(127,127,127); font-size: 15px; text-align: justify;"><strong>Last updated</strong>
-                <bdt class="block-container question question-in-editor" data-id="f06b270d-4b70-bc53-bef4-2d8996dff70b"
-                    data-type="question"><strong>June 24, 2025</strong></bdt>
-            </span>
-        </div>
-        <div class="MsoNormal" style="text-align: justify; line-height: 1.5;"><br></div>
-        <div class="MsoNormal" style="text-align: justify; line-height: 1.5;"><br></div>
-        <div class="MsoNormal" data-custom-class="heading_1"><a name="_xs0r05tcjblb"></a><strong><span
-                    style="line-height: 115%; font-size: 19px;">
-                    <h2>WEBSITE DISCLAIMER</h2>
-                </span></strong></div>
-    </div>
-    <div>
-        <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5;"><span
-                style="color: rgb(89, 89, 89); font-size: 15px;">The information provided by <bdt
-                    class="block-container question question-in-editor" data-id="1e91c6ac-db3b-ab40-09dc-333e7d471e6c"
-                    data-type="question">p1gd0g</bdt> (<bdt class="block-component"></bdt>"we," "us," or "our"<bdt
-                    class="statement-end-if-in-editor"></bdt>) on <bdt class="block-component"></bdt><span
-                    style="color: rgb(0, 58, 250);">
-                    <bdt class="question"><a href="http://www.p1gd0g.cc" target="_blank"
-                            data-custom-class="link">http://www.p1gd0g.cc</a></bdt>
-                </span> (the <bdt class="block-component"></bdt>"Site"<bdt class="statement-end-if-in-editor"></bdt>)
-                <bdt class="block-component"></bdt>
-                </bdt>is for general informational purposes only. All information on
-                <span style="color: rgb(89, 89, 89); font-size: 15px;">
-                    <bdt class="block-component"></bdt>the Site<bdt class="block-component"></bdt>
-                    </bdt>
-                </span>is provided in good faith, however we make no representation or warranty of any kind, express or
-                implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any
-                information on <span style="color: rgb(89, 89, 89); font-size: 15px;"><span
-                        style="color: rgb(89, 89, 89); font-size: 15px;">
-                        <bdt class="block-component"></bdt>the Site<bdt class="block-component"></bdt>
-                        </bdt>
-                    </span></span>. UNDER NO CIRCUMSTANCE SHALL WE HAVE ANY LIABILITY TO YOU FOR ANY LOSS OR DAMAGE OF
-                ANY KIND INCURRED AS A RESULT OF THE USE OF <span style="color: rgb(89, 89, 89); font-size: 15px;"><span
-                        style="color: rgb(89, 89, 89); font-size: 15px;">
-                        <bdt class="block-component"></bdt>THE SITE<bdt class="block-component"></bdt>
-                        </bdt>
-                    </span></span>OR RELIANCE ON ANY INFORMATION PROVIDED ON <span
-                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
-                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
-                            style="color: rgb(89, 89, 89); font-size: 15px;">
-                            <bdt class="block-component"></bdt>THE SITE<bdt class="block-component"></bdt>
-                            </bdt>
-                        </span></span></span>. YOUR USE OF <span style="color: rgb(89, 89, 89); font-size: 15px;"><span
-                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
-                            style="color: rgb(89, 89, 89); font-size: 15px;">
-                            <bdt class="block-component"></bdt>THE SITE<bdt class="block-component"></bdt>
-                            </bdt>
-                        </span></span></span>AND YOUR RELIANCE ON ANY INFORMATION ON <span
-                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
-                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
-                            style="color: rgb(89, 89, 89); font-size: 15px;">
-                            <bdt class="block-component"></bdt>THE SITE<bdt class="block-component"></bdt>
-                            </bdt>
-                        </span></span></span>IS SOLELY AT YOUR OWN RISK.
-            </span></div>
-    </div>
-    <div style="line-height: 1.2;"><br></div>
-    <div>
-        <div class="MsoNormal"><a name="_x1u8x12nt00e"></a></div>
-        <bdt class="block-container if" data-type="if" id="25d6783f-eaa7-3465-7bd8-31e107cc0931">
-            <bdt data-type="conditional-block">
-                <bdt class="block-component" data-record-question-key="external_disclaimer_option"
-                    data-type="statement"></bdt>
-                <bdt data-type="body">
-                    <div class="MsoNormal" data-custom-class="heading_1"><strong><span
-                                style="line-height: 115%; font-size: 19px;">
-                                <h2>EXTERNAL LINKS
-                                    DISCLAIMER</h2>
-                            </span></strong></div>
-                </bdt>
-            </bdt>
-        </bdt>
-    </div>
-    <div>
-        <bdt class="block-container if" data-type="if">
-            <bdt data-type="conditional-block">
-                <bdt data-type="body">
-                    <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5;"><span
-                            style="color: rgb(89, 89, 89); font-size: 15px;"><span
-                                style="color: rgb(89, 89, 89); font-size: 15px;">
-                                <bdt class="block-component"></bdt>The Site<bdt class="block-component"></bdt>
-                </bdt></span></span><span style="font-size: 15px;"><span style="color: rgb(89, 89, 89);">may contain
-                        (or you may be sent through <span style="color: rgb(89, 89, 89); font-size: 15px;"><span
-                                style="color: rgb(89, 89, 89); font-size: 15px;">
-                                <bdt class="block-component"></bdt>the Site<bdt class="block-component"></bdt>
-            </bdt></span></span>) links</span></span><span style="color: rgb(89, 89, 89); font-size: 15px;">to other
-                websites or content belonging to or originating from third parties or links to
-                websites and features in banners or other advertising. Such external links are
-                not investigated, monitored, or checked for accuracy, adequacy, validity, reliability,
-                availability, or completeness by us. WE DO NOT WARRANT, ENDORSE, GUARANTEE, OR
-                ASSUME RESPONSIBILITY FOR THE ACCURACY OR RELIABILITY OF ANY INFORMATION
-                OFFERED BY THIRD-PARTY WEBSITES LINKED THROUGH THE SITE OR ANY WEBSITE OR
-                FEATURE LINKED IN ANY BANNER OR OTHER ADVERTISING. WE WILL NOT BE A PARTY TO OR
-                IN ANY WAY BE RESPONSIBLE FOR MONITORING ANY TRANSACTION BETWEEN YOU AND THIRD-PARTY PROVIDERS OF
-                PRODUCTS OR SERVICES.</span>
-    </div>
-    </bdt>
-    </bdt>
-    </bdt>
-</div>
-<div style="line-height: 1.2;"><br></div>
-<div>
-    <bdt class="block-container if" data-type="if">
-        <bdt class="statement-end-if-in-editor" data-type="close"></bdt>
-    </bdt>
-    <div class="MsoNormal"><a name="_wfmrqujylbbj"></a></div>
-    <bdt class="block-container if" data-type="if" id="098cd9ba-027e-0afb-ec22-41e16cb68d79">
-        <bdt data-type="conditional-block">
-            <bdt class="block-component" data-record-question-key="professional_disclaimer_option"
-                data-type="statement"></bdt>
-        </bdt>
-</div>
-<div>
-    <bdt class="block-component"></bdt>
-    </bdt>
-    <bdt data-type="conditional-block" style="text-align: start;">
-        <bdt data-type="body">
-            <div class="MsoNormal">
-                <bdt class="block-component"></bdt>
-        </bdt></span>
-    </bdt>
-    </bdt>
-    </bdt>
-    </bdt>
-    </bdt></span></bdt>
-    </bdt>
-    </bdt>
-</div>
-<style>
-    ul {
-        list-style-type: square;
-    }
-
-    ul>li>ul {
-        list-style-type: circle;
-    }
-
-    ul>li>ul>li>ul {
-        list-style-type: square;
-    }
-
-    ol li {
-        font-family: Arial;
-    }
-</style>
-</div>
+<h1>Disclaimer</h1>
+<p>Last updated: September 09, 2025</p>
+<h2>Interpretation and Definitions</h2>
+<h4>Interpretation</h4>
+<p>The words of which the initial letter is capitalized have meanings defined under the following conditions.
+The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
+<h4>Definitions</h4>
+<p>For the purposes of this Disclaimer:</p>
+<ul>
+<li><strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in this Disclaimer) refers to p1gd0g's blog.</li>
+<li><strong>Service</strong> refers to the Website.</li>
+<li><strong>You</strong> means the individual accessing the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.</li>
+<li><strong>Website</strong> refers to p1gd0g's blog, accessible from <a href="https://www.p1gd0g.cc/" rel="external nofollow noopener" target="_blank">https://www.p1gd0g.cc/</a></li>
+</ul>
+<h2>Disclaimer</h2>
+<p>The information contained on the Service is for general information purposes only.</p>
+<p>The Company assumes no responsibility for errors or omissions in the contents of the Service.</p>
+<p>In no event shall the Company be liable for any special, direct, indirect, consequential, or incidental damages or any damages whatsoever, whether in an action of contract, negligence or other tort, arising out of or in connection with the use of the Service or the contents of the Service. The Company reserves the right to make additions, deletions, or modifications to the contents on the Service at any time without prior notice.</p>
+<p>The Company does not warrant that the Service is free of viruses or other harmful components.</p>
+<h2>External Links Disclaimer</h2>
+<p>The Service may contain links to external websites that are not provided or maintained by or in any way affiliated with the Company.</p>
+<p>Please note that the Company does not guarantee the accuracy, relevance, timeliness, or completeness of any information on these external websites.</p>
+<h2>Errors and Omissions Disclaimer</h2>
+<p>The information given by the Service is for general guidance on matters of interest only. Even if the Company takes every precaution to ensure that the content of the Service is both current and accurate, errors can occur. Plus, given the changing nature of laws, rules and regulations, there may be delays, omissions or inaccuracies in the information contained on the Service.</p>
+<p>The Company is not responsible for any errors or omissions, or for the results obtained from the use of this information.</p>
+<h2>Fair Use Disclaimer</h2>
+<p>The Company may use copyrighted material which has not always been specifically authorized by the copyright owner. The Company is making such material available for criticism, comment, news reporting, teaching, scholarship, or research.</p>
+<p>The Company believes this constitutes a &quot;fair use&quot; of any such copyrighted material as provided for in section 107 of the United States Copyright law.</p>
+<p>If You wish to use copyrighted material from the Service for your own purposes that go beyond fair use, You must obtain permission from the copyright owner.</p>
+<h2>Views Expressed Disclaimer</h2>
+<p>The Service may contain views and opinions which are those of the authors and do not necessarily reflect the official policy or position of any other author, agency, organization, employer or company, including the Company.</p>
+<p>Comments published by users are their sole responsibility and the users will take full responsibility, liability and blame for any libel or litigation that results from something written in or as a direct result of something written in a comment. The Company is not liable for any comment published by users and reserves the right to delete any comment for any reason whatsoever.</p>
+<h2>No Responsibility Disclaimer</h2>
+<p>The information on the Service is provided with the understanding that the Company is not herein engaged in rendering legal, accounting, tax, or other professional advice and services. As such, it should not be used as a substitute for consultation with professional accounting, tax, legal or other competent advisers.</p>
+<p>In no event shall the Company or its suppliers be liable for any special, incidental, indirect, or consequential damages whatsoever arising out of or in connection with your access or use or inability to access or use the Service.</p>
+<h2>&quot;Use at Your Own Risk&quot; Disclaimer</h2>
+<p>All information in the Service is provided &quot;as is&quot;, with no guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty of any kind, express or implied, including, but not limited to warranties of performance, merchantability and fitness for a particular purpose.</p>
+<p>The Company will not be liable to You or anyone else for any decision made or action taken in reliance on the information given by the Service or for any consequential, special or similar damages, even if advised of the possibility of such damages.</p>
+<h2>Contact Us</h2>
+<p>If you have any questions about this Disclaimer, You can contact Us:</p>
+<ul>
+<li>By email: renhao.szu@gmail.com</li>
+</ul>
