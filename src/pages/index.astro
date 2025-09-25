@@ -107,12 +107,12 @@ posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
 					width: 100%;
 					text-align: center;
 				}
-				ul li:first-child {
+				/* ul li:first-child {
 					margin-bottom: 0;
 				}
 				ul li:first-child .title {
 					font-size: 1.563em;
-				}
+				} */
 			}
 		</style>
 	</head>
@@ -238,19 +238,36 @@ posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
 				</ul>
 				<script>
 					window.addEventListener("load", function () {
+						var updating = false;
 						function updateLayout() {
+							if (updating) {
+								// delay the updateLayout call
+								setTimeout(updateLayout, 100);
+								return;
+							}
+							updating = true;
 							const ul = document.querySelector("ul");
 							if (ul === null) return;
 							const items = ul.querySelectorAll("li");
 							const columnWidth = items[0].offsetWidth;
-							const gap = 20; // Adjust as needed
 							let columns: any[] = [];
 
 							const containerWidth = ul.offsetWidth;
 							let columnCount = Math.floor(
 								containerWidth / columnWidth,
 							);
-							if (columnCount === 0) columnCount = 1;
+							if (columnCount === 1) {
+								columnCount = 1;
+							}
+							let gap = 20;
+
+							if (columnCount > 1) {
+								gap =
+									(containerWidth -
+										columnCount * columnWidth) /
+									(columnCount - 1);
+							}
+
 							columns = Array(columnCount).fill(0);
 
 							items.forEach((item, index) => {
@@ -258,19 +275,44 @@ posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
 								const minIndex = columns.indexOf(minHeight);
 
 								item.style.position = "absolute";
-								item.style.left = `${minIndex * columnWidth + (minIndex > 0 ? minIndex * gap : 0)}px`;
+
+								if (minIndex === 0) {
+									item.style.left = `0px`;
+									item.style.right = "";
+								} else {
+									item.style.left = "";
+									item.style.right = `0px`;
+								}
+								// item.style.left = `${minIndex * columnWidth + (minIndex > 0 ? minIndex * gap : 0)}px`;
 								item.style.top = `${minHeight}px`;
 
 								columns[minIndex] += item.offsetHeight + gap;
 							});
 
 							ul.style.height = `${Math.max(...columns)}px`;
+							updating = false;
 						}
 
 						// Delay the layout update slightly to ensure images are loaded and have dimensions
-						setTimeout(updateLayout, 500);
+						// setTimeout(updateLayout, 500);
+
+						const ul = document.querySelector("ul");
+						if (ul === null) return;
+						const listItem = ul.querySelectorAll("li");
+						listItem.forEach((item) => {
+							const img = item.querySelector("img");
+							if (img !== null && !img.complete) {
+								img.onload = function () {
+									console.log(
+										`update layout on load, updating: ${updating}`,
+									);
+									updateLayout();
+								};
+							}
+						});
 
 						window.addEventListener("resize", updateLayout);
+						updateLayout();
 					});
 				</script>
 			</section>
