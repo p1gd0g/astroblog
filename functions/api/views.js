@@ -6,7 +6,7 @@ export default async function onRequest(context) {
   
   // Check if KV namespace is available
   // The KV namespace should be bound in EdgeOne Pages console with variable name 'BLOG_KV'
-  const kv = env.BLOG_KV;
+  const kv = BLOG_KV;
   
   if (!kv) {
     return new Response(JSON.stringify({ error: 'KV storage not configured' }), {
