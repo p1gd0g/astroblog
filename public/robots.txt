@@ -3,5 +3,3 @@ User-agent: *
 Disallow:
 
 Sitemap: https://www.p1gd0g.cc/sitemap-index.xml
-Sitemap: https://p1gd0g.cc/sitemap-index.xml
-Sitemap: https://sitemap.p1gd0g.cc
