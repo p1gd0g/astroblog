@@ -20,6 +20,7 @@ Features:
 - ✅ Sitemap support
 - ✅ RSS Feed support
 - ✅ Markdown & MDX support
+- ✅ Page view counter using EdgeOne Pages KV storage
 
 ## 🚀 Project Structure
 
@@ -66,3 +67,16 @@ Check out [our documentation](https://docs.astro.build) or jump into our [Discor
 ## Credit
 
 This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+
+## 📊 EdgeOne Pages KV Setup
+
+This project includes a page view counter powered by Tencent Cloud EdgeOne Pages KV storage. 
+
+For detailed setup instructions on configuring the KV storage, see [EDGEONE_KV_SETUP.md](./EDGEONE_KV_SETUP.md).
+
+**Quick Setup:**
+1. Create a KV namespace in EdgeOne Pages Console
+2. Bind it to your project with variable name `BLOG_KV`
+3. Deploy the project
+
+The view counter will automatically track page views for each blog post.
