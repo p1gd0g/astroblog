@@ -8,7 +8,7 @@ interface Props {
 const { slug, increment = false } = Astro.props;
 ---
 
-<div class="view-counter" data-slug={slug} data-increment={increment}>
+<div class="view-counter" data-slug={slug} data-increment={increment.toString()}>
 	<span class="view-icon">👁️</span>
 	<span class="view-count">-</span>
 	<span class="view-text">次</span>

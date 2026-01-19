@@ -232,7 +232,7 @@ posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
 											date={post.data.pubDate}
 										/>
 									</p>
-									<ViewCounter slug={post.id} />
+									<ViewCounter slug={post.id} increment={false} />
 								</a>
 							</li>
 						))

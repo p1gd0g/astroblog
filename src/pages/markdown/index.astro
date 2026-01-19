@@ -103,7 +103,7 @@ const posts = (await getCollection('blog')).sort(
 									<p class="date">
 										<FormattedDate date={post.data.pubDate} />
 									</p>
-									<ViewCounter slug={post.id} />
+									<ViewCounter slug={post.id} increment={false} />
 								</a>
 							</li>
 						))
