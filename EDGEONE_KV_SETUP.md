@@ -32,10 +32,15 @@ Once the KV namespace is bound with the variable name `BLOG_KV`, deploy your pro
 
 ### Edge Function
 
-The edge function at `/functions/api/views.js` handles view counting:
+The edge function at `/functions/api/views.js` handles view counting with security features:
 
 - **GET `/api/views?slug=<slug>`**: Retrieve the view count for a specific page
 - **POST `/api/views?slug=<slug>`**: Increment the view count for a specific page
+
+**Security Features:**
+- Input validation: Slugs are validated to only allow alphanumeric characters, hyphens, underscores, and forward slashes
+- Retry logic: POST requests include retry logic (up to 3 attempts) to handle race conditions
+- Verification: After incrementing, the function verifies the write was successful
 
 The function uses the `BLOG_KV` namespace bound in the EdgeOne Pages console.
 

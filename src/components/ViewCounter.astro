@@ -28,10 +28,7 @@ const { slug } = Astro.props;
 		try {
 			// First, increment the view count
 			const incrementResponse = await fetch(`/api/views?slug=${encodeURIComponent(slug)}`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				}
+				method: 'POST'
 			});
 
 			if (incrementResponse.ok) {

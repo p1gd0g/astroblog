@@ -25,6 +25,15 @@ export default async function onRequest(context) {
     });
   }
 
+  // Validate slug format to prevent injection attacks
+  // Allow alphanumeric, hyphens, underscores, and forward slashes (for nested paths)
+  if (!/^[a-zA-Z0-9/_-]+$/.test(slug)) {
+    return new Response(JSON.stringify({ error: 'invalid slug format' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   const key = `views:${slug}`;
 
   // Handle GET request - retrieve view count
@@ -49,28 +58,44 @@ export default async function onRequest(context) {
     }
   }
 
-  // Handle POST request - increment view count
+  // Handle POST request - increment view count with retry logic
   if (request.method === 'POST') {
-    try {
-      const currentCount = await kv.get(key);
-      const newCount = currentCount ? parseInt(currentCount, 10) + 1 : 1;
-      await kv.put(key, String(newCount));
-      
-      return new Response(JSON.stringify({ 
-        slug,
-        views: newCount 
-      }), {
-        status: 200,
-        headers: { 
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+    const maxRetries = 3;
+    let attempt = 0;
+    
+    while (attempt < maxRetries) {
+      try {
+        const currentCount = await kv.get(key);
+        const newCount = currentCount ? parseInt(currentCount, 10) + 1 : 1;
+        
+        // Attempt to store the new count
+        await kv.put(key, String(newCount));
+        
+        // Verify the write was successful
+        const verifyCount = await kv.get(key);
+        const finalCount = verifyCount ? parseInt(verifyCount, 10) : newCount;
+        
+        return new Response(JSON.stringify({ 
+          slug,
+          views: finalCount
+        }), {
+          status: 200,
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
+      } catch (error) {
+        attempt++;
+        if (attempt >= maxRetries) {
+          return new Response(JSON.stringify({ error: 'Failed to increment views after retries' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+          });
         }
-      });
-    } catch (error) {
-      return new Response(JSON.stringify({ error: 'Failed to increment views' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
+        // Wait briefly before retrying
+        await new Promise(resolve => setTimeout(resolve, 100 * attempt));
+      }
     }
   }
 
