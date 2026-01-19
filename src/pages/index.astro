@@ -6,6 +6,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
+import ViewCounter from "../components/ViewCounter.astro";
 var posts = (await getCollection("blog")).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
@@ -231,6 +232,7 @@ posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
 											date={post.data.pubDate}
 										/>
 									</p>
+									<ViewCounter slug={post.id} />
 								</a>
 							</li>
 						))

@@ -2,52 +2,67 @@
 // ViewCounter component for tracking and displaying page views
 interface Props {
 	slug: string;
+	increment?: boolean; // Whether to increment the view count (default: false for display-only)
 }
 
-const { slug } = Astro.props;
+const { slug, increment = false } = Astro.props;
 ---
 
-<div class="view-counter" data-slug={slug}>
+<div class="view-counter" data-slug={slug} data-increment={increment}>
 	<span class="view-icon">👁️</span>
 	<span class="view-count">-</span>
-	<span class="view-text">views</span>
+	<span class="view-text">次</span>
 </div>
 
 <script>
 	// This script runs on the client side to fetch and update view counts
 	document.addEventListener('DOMContentLoaded', async () => {
-		const counter = document.querySelector('.view-counter');
-		if (!counter) return;
+		const counters = document.querySelectorAll('.view-counter');
+		
+		counters.forEach(async (counter) => {
+			const slug = counter.getAttribute('data-slug');
+			const shouldIncrement = counter.getAttribute('data-increment') === 'true';
+			
+			if (!slug) return;
 
-		const slug = counter.getAttribute('data-slug');
-		if (!slug) return;
+			const countSpan = counter.querySelector('.view-count');
+			if (!countSpan) return;
 
-		const countSpan = counter.querySelector('.view-count');
-		if (!countSpan) return;
+			try {
+				if (shouldIncrement) {
+					// Increment the view count (for individual blog posts)
+					const incrementResponse = await fetch(`/api/views?slug=${encodeURIComponent(slug)}`, {
+						method: 'POST'
+					});
 
-		try {
-			// First, increment the view count
-			const incrementResponse = await fetch(`/api/views?slug=${encodeURIComponent(slug)}`, {
-				method: 'POST'
-			});
-
-			if (incrementResponse.ok) {
-				const data = await incrementResponse.json();
-				countSpan.textContent = data.views.toLocaleString();
-			} else {
-				// If increment fails, try to get current count
-				const getResponse = await fetch(`/api/views?slug=${encodeURIComponent(slug)}`);
-				if (getResponse.ok) {
-					const data = await getResponse.json();
-					countSpan.textContent = data.views.toLocaleString();
+					if (incrementResponse.ok) {
+						const data = await incrementResponse.json();
+						countSpan.textContent = data.views.toLocaleString();
+					} else {
+						// If increment fails, try to get current count
+						const getResponse = await fetch(`/api/views?slug=${encodeURIComponent(slug)}`);
+						if (getResponse.ok) {
+							const data = await getResponse.json();
+							countSpan.textContent = data.views.toLocaleString();
+						} else {
+							countSpan.textContent = 'N/A';
+						}
+					}
 				} else {
-					countSpan.textContent = 'N/A';
+					// Only fetch the view count (for listing pages)
+					const getResponse = await fetch(`/api/views?slug=${encodeURIComponent(slug)}`);
+					if (getResponse.ok) {
+						const data = await getResponse.json();
+						countSpan.textContent = data.views.toLocaleString();
+					} else {
+						countSpan.textContent = '0';
+					}
 				}
+			} catch (error) {
+				console.error('Failed to fetch view count:', error);
+				countSpan.textContent = 'N/A';
 			}
-		} catch (error) {
-			console.error('Failed to update view count:', error);
-			countSpan.textContent = 'N/A';
-		}
+		});
 	});
 </script>
 
