@@ -6,9 +6,19 @@ import ViewCounter from "./ViewCounter.astro";
 
 interface Props {
 	posts: CollectionEntry<"blog">[];
+	page?: {
+		currentPage: number;
+		lastPage: number;
+		url?: {
+			prev?: string;
+			next?: string;
+			first?: string;
+			last?: string;
+		};
+	};
 }
 
-const { posts } = Astro.props;
+const { posts, page } = Astro.props;
 ---
 
 <style>
@@ -80,6 +90,45 @@ const { posts } = Astro.props;
 			font-size: 1.563em;
 		}
 	}
+
+	.pagination {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+		margin-top: 1.25rem;
+		flex-wrap: wrap;
+	}
+
+	.pagination a,
+	.pagination .disabled {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 10px;
+		padding: 0.35rem 0.6rem;
+		border: 1px dashed var(--accent);
+		color: rgb(var(--black));
+		text-decoration: none;
+		transition: 0.2s ease;
+	}
+
+	.pagination a:hover {
+		color: rgb(var(--accent));
+		box-shadow: var(--box-shadow);
+	}
+
+	.pagination .disabled {
+		opacity: 0.45;
+		cursor: not-allowed;
+	}
+
+	.pagination .meta {
+		color: rgb(var(--gray));
+		padding: 0.35rem 0.6rem;
+		border-radius: 10px;
+		border: 1px dashed transparent;
+	}
 </style>
 
 <ul class="post-masonry" data-post-masonry>
@@ -105,6 +154,56 @@ const { posts } = Astro.props;
 		))
 	}
 </ul>
+
+{
+	page && page.lastPage > 1 && (
+		<nav class="pagination" aria-label="Pagination">
+			{page.url?.first ? (
+				<a href={page.url.first} aria-label="First page">
+					« 首页
+				</a>
+			) : (
+				<span class="disabled" aria-hidden="true">
+					« 首页
+				</span>
+			)}
+
+			{page.url?.prev ? (
+				<a href={page.url.prev} aria-label="Previous page">
+					‹ 上一页
+				</a>
+			) : (
+				<span class="disabled" aria-hidden="true">
+					‹ 上一页
+				</span>
+			)}
+
+			<span class="meta" aria-live="polite">
+				第 {page.currentPage} 页 / 共 {page.lastPage} 页
+			</span>
+
+			{page.url?.next ? (
+				<a href={page.url.next} aria-label="Next page">
+					下一页 ›
+				</a>
+			) : (
+				<span class="disabled" aria-hidden="true">
+					下一页 ›
+				</span>
+			)}
+
+			{page.url?.last ? (
+				<a href={page.url.last} aria-label="Last page">
+					末页 »
+				</a>
+			) : (
+				<span class="disabled" aria-hidden="true">
+					末页 »
+				</span>
+			)}
+		</nav>
+	)
+}
 
 <script>
 	window.addEventListener("load", () => {

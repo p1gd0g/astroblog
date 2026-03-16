@@ -5,12 +5,28 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import PostMasonry from "../components/PostMasonry.astro";
+import Showcase from "../components/Showcase.astro";
+
+const PAGE_SIZE = 10;
 var posts = (await getCollection("blog")).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
 // 过滤掉无 tag 的文章
 posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
+
+const lastPage = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
+const pagePosts = posts.slice(0, PAGE_SIZE);
+const page = {
+	currentPage: 1,
+	lastPage,
+	url: {
+		first: "/",
+		prev: undefined,
+		next: lastPage > 1 ? "/page/2" : undefined,
+		last: lastPage > 1 ? `/page/${lastPage}` : undefined,
+	},
+};
 ---
 
 <!doctype html>
@@ -24,7 +40,7 @@ posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
 				pointer-events: none;
 			}
 
-			.App-img {
+			:global(.App-img) {
 				vertical-align: middle;
 			}
 
@@ -45,12 +61,6 @@ posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
 				width: 960px;
 			}
 			@media (max-width: 720px) {
-				/* ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				} */
 			}
 		</style>
 	</head>
@@ -64,114 +74,18 @@ posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
 					<br />
 					一万年太短，不争朝夕
 					<br />
-					<img
-						class="App-img"
-						src="icon/gridder.png"
-						width={30}
-						height={30}
-						alt="p1gd0g logo"
-					/>
-					<a
-						href="https://x.p1gd0g.cc"
-						target="_blank"
-						rel="noopener noreferrer"
-						title="Gridder 网格交易测试工具"
-						aria-label="Gridder 网格交易测试工具"
-						>Gridder 网格交易测试工具</a
-					>
-					<br />
-					<img
-						class="App-img"
-						src="icon/atrx.png"
-						width={30}
-						height={30}
-						alt="p1gd0g logo"
-					/>
-					<a
-						href="https://y.p1gd0g.cc"
-						target="_blank"
-						rel="noopener noreferrer"
-						title="ATRX - ETF 波动率对比"
-						aria-label="ATRX - ETF 波动率对比"
-						>ATRX - ETF 波动率对比</a
-					>
-					<br />
-					<img
-						class="App-img"
-						src="icon/usder.png"
-						width={30}
-						height={30}
-						alt="p1gd0g logo"
-					/>
-					<a
-						href="https://u.p1gd0g.cc"
-						target="_blank"
-						rel="noopener noreferrer"
-						title="USDer - 美元/人民币理财对比"
-						aria-label="USDer - 美元/人民币理财对比"
-						>USDer - 美元/人民币理财对比</a
-					>
-					<br />
-					<img
-						class="App-img"
-						src="icon/since-then-timer.png"
-						width={30}
-						height={30}
-					/>
-					<a
-						href="https://t.p1gd0g.cc"
-						target="_blank"
-						rel="noopener noreferrer"
-						title="Since Then 计时器"
-						aria-label="Since Then 计时器"
-					>
-						Since Then 计时器</a
-					>
-					<br />
-					<img
-						class="App-img"
-						src="icon/martin-calc.png"
-						width={30}
-						height={30}
-					/>
-					<a
-						href="https://z.p1gd0g.cc"
-						target="_blank"
-						rel="noopener noreferrer"
-						title="Martin Calc 马丁格尔计算器"
-						aria-label="Martin Calc 马丁格尔计算器"
-					>
-						Martin Calc 马丁格尔计算器</a
-					>
-					<br />
-					<img
-						class="App-img"
-						src="icon/leak-flower.png"
-						width={30}
-						height={30}
-					/>
-					<a
-						href="https://m.p1gd0g.cc"
-						target="_blank"
-						rel="noopener noreferrer"
-						title="韭花 - 电影点映评分"
-						aria-label="韭花 - 电影点映评分"
-					>
-						韭花 - 电影点映评分</a
-					>
 				</p>
 			</div>
 
 			<hr />
+			<Showcase />
 			<hr />
 
 			<section>
-				<PostMasonry posts={posts} />
+				<PostMasonry posts={pagePosts} page={page} />
 			</section>
 		</main>
 
 		<Footer />
 	</body>
-
-	</amp-auto-ads>
 </html>

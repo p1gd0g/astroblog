@@ -1,0 +1,91 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { getCollection } from "astro:content";
+import PostMasonry from "../../components/PostMasonry.astro";
+
+export async function getStaticPaths({ paginate }: any) {
+	const PAGE_SIZE = 10;
+	let posts = (await getCollection("blog")).sort(
+		(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	);
+
+	posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
+
+	return paginate(posts, { pageSize: PAGE_SIZE });
+}
+
+const { page } = Astro.props as any;
+
+const fixedUrl = {
+	...page.url,
+	first: "/",
+	prev: page.currentPage === 2 ? "/" : page.url.prev,
+	last: page.lastPage > 1 ? `/page/${page.lastPage}` : undefined,
+};
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`${SITE_TITLE} - Page ${page.currentPage}`}
+			description={SITE_DESCRIPTION}
+		/>
+		<style>
+			.App-logo {
+				height: 40vmin;
+				box-shadow: 0 0 20px var(--accent);
+				pointer-events: none;
+			}
+
+			.App-img {
+				vertical-align: middle;
+			}
+
+			.logo-container {
+				gap: 30px;
+				display: flex;
+				align-items: center;
+				text-align: center;
+				justify-content: center;
+			}
+
+			hr {
+				margin: 30px;
+			}
+
+			main {
+				width: 960px;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="logo-container">
+				<img src="/logo.webp" class="App-logo" />
+				<p>
+					投资 旅游 编程 健身
+					<br />
+					一万年太短，不争朝夕
+				</p>
+			</div>
+
+			<hr />
+			<hr />
+
+			<section>
+				<PostMasonry
+					posts={page.data}
+					page={{ ...page, url: fixedUrl }}
+				/>
+			</section>
+		</main>
+
+		<Footer />
+	</body>
+</html>
+
