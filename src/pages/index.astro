@@ -3,10 +3,8 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import FormattedDate from "../components/FormattedDate.astro";
-import ViewCounter from "../components/ViewCounter.astro";
+import PostMasonry from "../components/PostMasonry.astro";
 var posts = (await getCollection("blog")).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
@@ -46,68 +44,7 @@ posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
 			main {
 				width: 960px;
 			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-				position: relative;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-				/* align-content: center */
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			/* ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			} */
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-				border-radius: 12px;
-				padding: 0.5rem;
-				border: 1px dashed var(--accent);
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
 			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
 				/* ul li:first-child {
 					margin-bottom: 0;
 				}
@@ -229,113 +166,7 @@ posts = posts.filter((post) => post.data.tags && post.data.tags.length > 0);
 			<hr />
 
 			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image
-											width={720}
-											height={360}
-											src={post.data.heroImage}
-											alt=""
-										/>
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate
-											date={post.data.pubDate}
-										/>
-									</p>
-									<ViewCounter
-										slug={post.id}
-										increment={false}
-									/>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-				<script>
-					window.addEventListener("load", function () {
-						var updating = false;
-						function updateLayout() {
-							if (updating) {
-								// delay the updateLayout call
-								setTimeout(updateLayout, 100);
-								return;
-							}
-							updating = true;
-							const ul = document.querySelector("ul");
-							if (ul === null) return;
-							const items = ul.querySelectorAll("li");
-							const columnWidth = items[0].offsetWidth;
-							let columns: any[] = [];
-
-							const containerWidth = ul.offsetWidth;
-							let columnCount = Math.floor(
-								containerWidth / columnWidth,
-							);
-							if (columnCount === 1) {
-								columnCount = 1;
-							}
-							let gap = 20;
-
-							if (columnCount > 1) {
-								gap =
-									(containerWidth -
-										columnCount * columnWidth) /
-									(columnCount - 1);
-							}
-
-							columns = Array(columnCount).fill(0);
-
-							items.forEach((item, index) => {
-								const minHeight = Math.min(...columns);
-								const minIndex = columns.indexOf(minHeight);
-
-								item.style.position = "absolute";
-
-								if (minIndex === 0) {
-									item.style.left = `0px`;
-									item.style.right = "";
-								} else {
-									item.style.left = "";
-									item.style.right = `0px`;
-								}
-								// item.style.left = `${minIndex * columnWidth + (minIndex > 0 ? minIndex * gap : 0)}px`;
-								item.style.top = `${minHeight}px`;
-
-								columns[minIndex] += item.offsetHeight + gap;
-							});
-
-							ul.style.height = `${Math.max(...columns)}px`;
-							updating = false;
-						}
-
-						// Delay the layout update slightly to ensure images are loaded and have dimensions
-						// setTimeout(updateLayout, 500);
-
-						const ul = document.querySelector("ul");
-						if (ul === null) return;
-						const listItem = ul.querySelectorAll("li");
-						listItem.forEach((item) => {
-							const img = item.querySelector("img");
-							if (img !== null && !img.complete) {
-								img.onload = function () {
-									console.log(
-										`update layout on load, updating: ${updating}`,
-									);
-									updateLayout();
-								};
-							}
-						});
-
-						window.addEventListener("resize", updateLayout);
-						updateLayout();
-					});
-				</script>
+				<PostMasonry posts={posts} />
 			</section>
 		</main>
 

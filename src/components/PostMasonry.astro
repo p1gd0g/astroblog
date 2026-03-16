@@ -1,0 +1,184 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import FormattedDate from "./FormattedDate.astro";
+import ViewCounter from "./ViewCounter.astro";
+
+interface Props {
+	posts: CollectionEntry<"blog">[];
+}
+
+const { posts } = Astro.props;
+---
+
+<style>
+	.post-masonry {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2rem;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		position: relative;
+	}
+	.post-masonry li {
+		width: calc(50% - 1rem);
+	}
+	.post-masonry li:first-child {
+		width: 100%;
+		margin-bottom: 1rem;
+		text-align: center;
+	}
+	.post-masonry li:first-child img {
+		width: 100%;
+	}
+	.post-masonry li:first-child .title {
+		font-size: 2.369rem;
+	}
+	.post-masonry li * {
+		text-decoration: none;
+		transition: 0.2s ease;
+	}
+	.post-masonry li img {
+		margin-bottom: 0.5rem;
+		border-radius: 12px;
+	}
+	.post-masonry li a {
+		display: block;
+		border-radius: 12px;
+		padding: 0.5rem;
+		border: 1px dashed var(--accent);
+	}
+	.post-masonry .title {
+		margin: 0;
+		color: rgb(var(--black));
+		line-height: 1;
+	}
+	.post-masonry .date {
+		margin: 0;
+		color: rgb(var(--gray));
+	}
+	.post-masonry li a:hover h4,
+	.post-masonry li a:hover .date {
+		color: rgb(var(--accent));
+	}
+	.post-masonry a:hover img {
+		box-shadow: var(--box-shadow);
+	}
+	@media (max-width: 720px) {
+		.post-masonry {
+			gap: 0.5em;
+		}
+		.post-masonry li {
+			width: 100%;
+			text-align: center;
+		}
+		.post-masonry li:first-child {
+			margin-bottom: 0;
+		}
+		.post-masonry li:first-child .title {
+			font-size: 1.563em;
+		}
+	}
+</style>
+
+<ul class="post-masonry" data-post-masonry>
+	{
+		posts.map((post) => (
+			<li>
+				<a href={`/blog/${post.id}/`}>
+					{post.data.heroImage && (
+						<Image
+							width={720}
+							height={360}
+							src={post.data.heroImage}
+							alt=""
+						/>
+					)}
+					<h4 class="title">{post.data.title}</h4>
+					<p class="date">
+						<FormattedDate date={post.data.pubDate} />
+					</p>
+					<ViewCounter slug={post.id} increment={false} />
+				</a>
+			</li>
+		))
+	}
+</ul>
+
+<script>
+	window.addEventListener("load", () => {
+		const ul = document.querySelector(
+			"ul.post-masonry",
+		) as HTMLUListElement | null;
+		if (!ul) return;
+
+		let updating = false;
+		const list = ul;
+
+		function updateLayout() {
+			if (updating) {
+				setTimeout(updateLayout, 100);
+				return;
+			}
+
+			const items = Array.from(list.querySelectorAll("li")) as HTMLElement[];
+			if (items.length === 0) return;
+
+			// If the first card spans full width, keep it pinned on top
+			// and start the masonry flow below it.
+			const featured = items[0] ?? null;
+			let yOffset = 0;
+			if (featured) {
+				featured.style.position = "absolute";
+				featured.style.left = "0px";
+				featured.style.right = "0px";
+				featured.style.top = "0px";
+				yOffset = featured.offsetHeight + 20;
+			}
+
+			const sample = items.length > 1 ? items[1] : items[0];
+			const columnWidth = sample.offsetWidth;
+			if (!columnWidth) return;
+
+			const containerWidth = list.offsetWidth;
+			let columnCount = Math.max(1, Math.floor(containerWidth / columnWidth));
+
+			let gap = 20;
+			if (columnCount > 1) {
+				gap =
+					(containerWidth - columnCount * columnWidth) / (columnCount - 1);
+			}
+
+			const columns = Array(columnCount).fill(yOffset) as number[];
+
+			updating = true;
+
+			items.slice(1).forEach((el) => {
+				const minHeight = Math.min(...columns);
+				const minIndex = columns.indexOf(minHeight);
+
+				el.style.position = "absolute";
+				el.style.left = minIndex === 0 ? "0px" : "";
+				el.style.right = minIndex === 0 ? "" : "0px";
+				el.style.top = `${minHeight}px`;
+
+				columns[minIndex] += el.offsetHeight + gap;
+			});
+
+			list.style.height = `${Math.max(...columns, yOffset)}px`;
+			updating = false;
+		}
+
+		const listItems = list.querySelectorAll("li");
+		listItems.forEach((item) => {
+			const img = item.querySelector("img") as HTMLImageElement | null;
+			if (img && !img.complete) {
+				img.addEventListener("load", updateLayout, { once: true });
+			}
+		});
+
+		window.addEventListener("resize", updateLayout);
+		updateLayout();
+	});
+</script>
