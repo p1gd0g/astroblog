@@ -11,8 +11,10 @@ const blog = defineCollection({
 		// Transform string to Date object
 		pubDate: z.string().transform((x) => {
 
+			x = x.replaceAll(' ', '');
+
 			// parse x with format '2025 年 5 月 14 日 16:33:52' to Date
-			const parts = x.match(/(\d+) 年 (\d+) 月 (\d+) 日 (\d+):(\d+):(\d+)/);
+			const parts = x.match(/(\d+)年(\d+)月(\d+)日(\d+):(\d+):(\d+)/);
 			if (!parts) return new Date();
 			const year = parseInt(parts[1]);
 			const month = parseInt(parts[2]) - 1; // Months are 0-indexed
@@ -25,8 +27,10 @@ const blog = defineCollection({
 		),
 		updatedDate: z.string().transform((x) => {
 
+			x = x.replaceAll(' ', '');
+
 			// parse x with format '2025 年 5 月 14 日 16:33:52' to Date
-			const parts = x.match(/(\d+) 年 (\d+) 月 (\d+) 日 (\d+):(\d+):(\d+)/);
+			const parts = x.match(/(\d+)年(\d+)月(\d+)日(\d+):(\d+):(\d+)/);
 			if (!parts) return new Date();
 			const year = parseInt(parts[1]);
 			const month = parseInt(parts[2]) - 1; // Months are 0-indexed
