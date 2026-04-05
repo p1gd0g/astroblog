@@ -5,11 +5,11 @@ import { SITE_TITLE } from "../consts";
 import { getCollection } from "astro:content";
 
 var allPosts = (await getCollection("blog")).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
 allPosts = allPosts.filter(
-	(post: any) => post.data.tags && post.data.tags.length > 0,
+    (post: any) => post.data.tags && post.data.tags.length > 0,
 );
 
 var tags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
@@ -17,25 +17,25 @@ tags.sort();
 
 const enIndex = tags.indexOf("EN");
 if (enIndex !== -1) {
-	tags.push(tags.splice(enIndex, 1)[0]);
+    tags.push(tags.splice(enIndex, 1)[0]);
 }
 ---
 
 <header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<!-- <HeaderLink href="/blog">Blog</HeaderLink> -->
-			<!-- <HeaderLink href="/about">About</HeaderLink> -->
-			{
-				tags &&
-					tags.map((tag: string) => (
-						<HeaderLink href={`/tags/${tag}`}>{tag}</HeaderLink>
-					))
-			}
-		</div>
-		<!-- <div class="social-links">
+    <nav>
+        <h2><a href="/">{SITE_TITLE}</a></h2>
+        <div class="internal-links">
+            <HeaderLink href="/">Home</HeaderLink>
+            <!-- <HeaderLink href="/blog">Blog</HeaderLink> -->
+            <!-- <HeaderLink href="/about">About</HeaderLink> -->
+            {
+                tags &&
+                    tags.map((tag: string) => (
+                        <HeaderLink href={`/tags/${tag}`}>{tag}</HeaderLink>
+                    ))
+            }
+        </div>
+        <!-- <div class="social-links">
 			<a href="https://m.webtoo.ls/@astro" target="_blank">
 				<span class="sr-only">Follow Astro on Mastodon</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
@@ -64,51 +64,46 @@ if (enIndex !== -1) {
 				>
 			</a>
 		</div> -->
-	</nav>
+    </nav>
 </header>
 <style>
-	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
+    header {
+        margin: 0;
+        padding: 0 1em;
+        background: white;
+        box-shadow: 0 2px 8px rgba(var(--black), 5%);
+    }
+    h2 {
+        margin: 0;
+        font-size: 1em;
+    }
 
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
-	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
-	}
-	.social-links,
-	.social-links a {
-		display: flex;
-	}
-	@media (max-width: 720px) {
-		.social-links {
-			display: none;
-		}
-	}
+    h2 a,
+    h2 a.active {
+        text-decoration: none;
+    }
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    nav a {
+        padding: 1em 0.5em;
+        color: var(--black);
+        border-bottom: 4px solid transparent;
+        text-decoration: none;
+    }
+    nav a.active {
+        text-decoration: none;
+        border-bottom-color: var(--accent);
+    }
+    .social-links,
+    .social-links a {
+        display: flex;
+    }
+    @media (max-width: 720px) {
+        .social-links {
+            display: none;
+        }
+    }
 </style>
-
-<script>
-	import { analytics } from "../firebase/client.ts";
-	// console.log(analytics.app.name);
-</script>
