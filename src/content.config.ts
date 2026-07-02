@@ -1,6 +1,7 @@
 import { glob } from 'astro/loaders';
 import { defineCollection } from 'astro:content';
-import { z } from 'astro/zod' 
+import { z } from 'astro/zod';
+import { transformImageUrl } from './utils/imageUrl';
 
 const blog = defineCollection({
 	// Load Markdown and MDX files in the `src/content/blog/` directory.
@@ -42,7 +43,10 @@ const blog = defineCollection({
 			return new Date(year, month, day, hour, minute, second);
 		}
 		).optional(),
-		heroImage: image().optional(),
+		heroImage: z.preprocess((val) => {
+			if (typeof val !== 'string') return val;
+			return transformImageUrl(val);
+		}, image()).optional(),
 		tags: z.array(z.string()).optional(),
 	}),
 });
