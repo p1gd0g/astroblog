@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="开分网">
+	<defs>
+		<linearGradient id="bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-color="#34a853" />
+			<stop offset="1" stop-color="#1b5e20" />
+		</linearGradient>
+		<clipPath id="clap">
+			<rect x="14" y="21" width="38" height="9" rx="2" />
+		</clipPath>
+	</defs>
+
+	<!-- 品牌底色：绿色圆角方块 -->
+	<rect width="64" height="64" rx="14" fill="url(#bg)" />
+
+	<!-- 场记板主体 -->
+	<rect x="14" y="30" width="38" height="20" rx="3" fill="#ffffff" />
+
+	<!-- 场记板（斜置拍板） -->
+	<g transform="rotate(-16 14 30)">
+		<rect x="14" y="21" width="38" height="9" rx="2" fill="#ffffff" />
+		<!-- 拍板斜纹 -->
+		<g clip-path="url(#clap)" fill="#1b5e20">
+			<polygon points="18,21 23,21 17,30 12,30" />
+			<polygon points="28,21 33,21 27,30 22,30" />
+			<polygon points="38,21 43,21 37,30 32,30" />
+			<polygon points="48,21 53,21 47,30 42,30" />
+		</g>
+	</g>
+
+	<!-- 评分星标（开分） -->
+	<path d="M33 32 L37.70 33.53 L36.04 39.01 L40.61 42.47 L34.88 42.59 L33 48 L31.12 42.59 L25.39 42.47 L29.96 39.01 L28.30 33.53 Z" fill="#ffd54f" />
+</svg>
